@@ -4,18 +4,21 @@ import * as path from 'path';
 
 async function run() {
   try {
-    const ref = core.getInput('ref') || process.env['GITHUB_SHA'];
-    const environment = core.getInput('environment');
-    const repository = process.env['GITHUB_REPOSITORY'];
-    if (repository != undefined) {
-      const owner = path.dirname(repository);
-      const repo = path.basename(repository);
-      github.repos.createDeployment({
-        owner,
-        repo,
-        ref
-      });
+    const token = process.env['GITHUB_TOKEN'];
+    if (token == undefined) {
+      return;
     }
+    const octokit = new github.GitHub(token);
+    const context = github.context;
+    const ref = core.getInput('ref') || process.env['GITHUB_SHA'];
+    if (ref == undefined) {
+      return;
+    }
+    const environment = core.getInput('environment');
+    octokit.repos.createDeployment({
+      ...context.repo,
+      ref: ref
+    });
     core.debug(`Hello ${ref}`);
   } catch (error) {
     core.setFailed(error.message);
