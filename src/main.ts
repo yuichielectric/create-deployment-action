@@ -4,14 +4,16 @@ import * as path from 'path';
 
 async function run() {
   try {
-    core.warning('Start processing');
+    core.debug('Start processing');
     const token = process.env['GITHUB_TOKEN'];
+    core.debug(`token: ${token}`);
     if (token == undefined) {
       return;
     }
     const octokit = new github.GitHub(token);
     const context = github.context;
     const ref = core.getInput('ref') || process.env['GITHUB_SHA'];
+    core.debug(`ref: ${ref}`);
     if (ref == undefined) {
       return;
     }
