@@ -22,8 +22,8 @@ async function run() {
       ref: ref
     };
     core.debug(JSON.stringify(payload));
-    octokit.repos.createDeployment(payload);
-    core.debug(`Hello ${ref}`);
+    const result = await octokit.repos.createDeployment(payload);
+    core.debug(JSON.stringify(result));
   } catch (error) {
     core.setFailed(error.message);
   }
