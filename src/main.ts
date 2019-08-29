@@ -1,6 +1,5 @@
 import * as core from '@actions/core';
 import * as github from '@actions/github';
-import * as path from 'path';
 
 async function run() {
   try {
@@ -18,10 +17,12 @@ async function run() {
       return;
     }
     const environment = core.getInput('environment');
-    octokit.repos.createDeployment({
+    const payload = {
       ...context.repo,
       ref: ref
-    });
+    };
+    core.debug(JSON.stringify(payload));
+    octokit.repos.createDeployment(payload);
     core.debug(`Hello ${ref}`);
   } catch (error) {
     core.setFailed(error.message);
