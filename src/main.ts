@@ -4,6 +4,7 @@ import * as path from 'path';
 
 async function run() {
   try {
+    core.warning('Start processing');
     const token = process.env['GITHUB_TOKEN'];
     if (token == undefined) {
       return;
