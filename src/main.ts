@@ -19,7 +19,8 @@ async function run() {
     const environment = core.getInput('environment');
     const payload = {
       ...context.repo,
-      ref: ref
+      ref: ref,
+      required_contexts: []
     };
     core.debug(JSON.stringify(payload));
     const result = await octokit.repos.createDeployment(payload);
