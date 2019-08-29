@@ -25,6 +25,7 @@ async function run() {
     core.debug(JSON.stringify(payload));
     const result = await octokit.repos.createDeployment(payload);
     core.debug(JSON.stringify(result));
+    core.setOutput("deployment-id", result['id']);
   } catch (error) {
     core.setFailed(error.message);
   }
